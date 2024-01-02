@@ -5,55 +5,82 @@
 # 3 - São 9 espaços no tabuleiro e não pode jogar em um espaço ja utilizado
 # 4 - Ganha quem quem prencher 3 espaços consecutivos com bolinha ou x na horizontal, vertical ou diagonal
 
-class JogoDaVelha:
-    ox = ['O', 'X']
-    pontos_jogador1 = 0
-    pontos_jogador2 = 0
-    ganhou = False
+class NougAndCross:
 
     def __init__(self):
-        self.linha0 = ['*', '*', '*']
-        self.linha1 = ['*', '*', '*']
-        self.linha2 = ['*', '*', '*']
+        self.board =  [[' ',' ',' '],
+                       [' ',' ',' '],
+                       [' ',' ',' ']]
+    def showBoard(self):
 
-        self.matriz = [self.linha0, self.linha1, self.linha2]
+        for item in self.board:
+            print(' | '.join(item))
+            print('-'*9)
+    def play(self):
+        turn = 0
+        ox = 'OX'
+        end = False
+        while end == False:
+            for item in ox:
+                line = int(input(f'"{item}" Escolha a linha [0,1 ou 2] '))
+                column = int(input(f'"{item}" Escolha a coluna [0, 1 ou 2] '))
+                while play.check(line, column):
+                    print ('Tente outra coluna')
+                    line = int(input('Escolha a linha [0,1 ou 2] '))
+                    column = int(input('Escolha a coluna [0, 1 ou 2] '))
+                    if not play.check(line, column):
+                        break
+                self.board[line][column] = item
+                play.showBoard()
+                if play.victory():
+                    print(item, 'ganhou')
+                    end = True
+                    break
+                turn += 1
+                if turn == 9:
+                    print('Empate')
+                    end = True
+                    break
 
-        print(f' 0 {self.linha0}\n 1 {self.linha1}\n 2 {self.linha2}')
-        print('=' * 50)
+    def check(self, line, column):
+        if self.board[line][column] != ' ':
+            return True
 
-    def jogador1(self, escolha_x_o):
-        self.escolha_x_o = escolha_x_o
-        if self.escolha_x_o == 0:
-            self.escolha1 = '0'
-
-        elif self.escolha_x_o == 1:
-            self.bolinha_ou_x_escolha = 'X'
-        else:
-            print('Escolha entre 0 ou 1')
-
-    def jogador2(self):
-        if self.escolha_x_o == 0:
-            self.escolha2 = 'X'
-        elif self.escolha1 == 1:
-            self.escolha2 = 'O'
-
-    def atualiza_tabuleiro(self):
-        print(self.atualizar)
+    def victory(self):
+        lines = self.board
+        columns = [list(column) for column in zip(*lines)]
+        diagonal1 = [lines[i][i] for i in range(min(len(lines), len(lines[0])))]
+        diagonal2 = [lines[i][len(lines) -1 - i] for i in range(min(len(lines), len((lines[0]))))]
+        for line in lines:
+             if line == ['O','O','O'] or line == ['X','X', 'X']:
+                 return True
+        for column in columns:
+            if column == ['O', 'O', 'O'] or column == ['X', 'X', 'X']:
+                return True
+        if diagonal1 == ['O', 'O', 'O'] or diagonal1 == ['X', 'X', 'X']:
+            return True
+        if diagonal2 == ['O', 'O', 'O'] or diagonal2 == ['X', 'X', 'X']:
+            return True
 
 
-    def jogadaO(self, linha, coluna):
-        self.linha = linha
-        self.coluna = coluna
+        #if all(columns) or all(diagonal) == 'O' or all(lines) or all(columns) or all(diagonal) == 'X':
+         #   return True
+
+
+
+"""
         start = True
         while start:
+            self.linha = int(input('Entre com a linha '))
+            self.coluna = int(input(('Entre com a coluna')))
             if linha == 0:
-                self.linha0[coluna] = self.ox[0]
+                self.linha[self.coluna] =
                 start = False
             elif linha == 1:
-                self.linha1[coluna] = self.ox[0]
+                self.linha[coluna] = self.ox[0]
                 start = False
             elif linha == 2:
-                self.linha2[coluna] = self.ox[0]
+                self.linha[coluna] = self.ox[0]
                 start = False
 
             self.atualizar = (f' 0 {self.linha0}\n 1 {self.linha1}\n 2 {self.linha2}')
@@ -107,20 +134,12 @@ class JogoDaVelha:
 
         if diagonal0 == "XXX" or "OOO" or diagonal1 == "XXX" or "OOO":
             return True
+"""
 
 
-
-jogo = JogoDaVelha()
-
-
-
-
-
-jogo.vitoria()
-
-
-
-
+play = NougAndCross()
+play.showBoard()
+play.play()
 
 
 
