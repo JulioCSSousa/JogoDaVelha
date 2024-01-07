@@ -24,6 +24,7 @@ class NougAndCross:
             for item in ox:
                 line = int(input(f'"{item}" Escolha a linha [0,1 ou 2] '))
                 column = int(input(f'"{item}" Escolha a coluna [0, 1 ou 2] '))
+                print('O número precisa ser de 0 a 2')
                 while play.check(line, column):
                     print ('Tente outra coluna')
                     line = int(input('Escolha a linha [0,1 ou 2] '))
@@ -48,23 +49,20 @@ class NougAndCross:
 
     def victory(self):
         lines = self.board
-        columns = [list(column) for column in zip(*lines)]
+        columns = list(zip(*lines))
+        print(columns)
         diagonal1 = [lines[i][i] for i in range(min(len(lines), len(lines[0])))]
         diagonal2 = [lines[i][len(lines) -1 - i] for i in range(min(len(lines), len((lines[0]))))]
         for line in lines:
              if line == ['O','O','O'] or line == ['X','X', 'X']:
                  return True
         for column in columns:
-            if column == ['O', 'O', 'O'] or column == ['X', 'X', 'X']:
+            if column == ('O', 'O', 'O') or column == ('X', 'X', 'X'):
                 return True
         if diagonal1 == ['O', 'O', 'O'] or diagonal1 == ['X', 'X', 'X']:
             return True
         if diagonal2 == ['O', 'O', 'O'] or diagonal2 == ['X', 'X', 'X']:
             return True
-
-
-        #if all(columns) or all(diagonal) == 'O' or all(lines) or all(columns) or all(diagonal) == 'X':
-         #   return True
 
 
 
