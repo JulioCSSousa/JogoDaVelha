@@ -25,13 +25,13 @@ class NougAndCross:
                 try:
                     line = int(input(f'"{item}" Escolha a linha [0,1 ou 2] '))
                     column = int(input(f'"{item}" Escolha a coluna [0, 1 ou 2] '))
-                    while play.check(line, column):
+                    while play.check_play(line, column):
                         try:
                             line = int(input(f'{item} Escolha a linha [0, 1 ou 2] '))
                             column = int(input(f'{item} Escolha a coluna [0, 1 ou 2] '))
                         except ValueError:
                             print('Valor inválido')
-                        if not play.check(line, column):
+                        if not play.check_play(line, column):
                             break
                 except ValueError:
                     print('Valor inválido')
@@ -42,20 +42,38 @@ class NougAndCross:
                     if play.victory():
                         print(item, 'ganhou')
                         end = True
-                        break
+                        if play.replay():
+                            play.play()
+                        else: break
                     turn += 1
                     if turn == 9:
                         print('Empate')
                         end = True
-                        break
+                        if play.replay():
+                            play.play()
+                        else: break
 
-    def check(self, line, column):
+
+
+    def check_play(self, line, column):
         if line < 0 or line > 2 or column < 0 or column > 2:
             print('Insira um número natural de 0 a 2!')
             return True
         if self.board[line][column] != ' ':
             print('Este espaço já está ocupado!')
             return True
+    def replay(self):
+        choice = int
+        try:
+            choice = int(input('Deseja reiniciar? [1] - Sim  [0] - NÃO '))
+        except ValueError:
+            print('Valor inválido')
+        else:
+            if choice < 0 or choice > 1:
+                print('Insira o número de 0 a 1!')
+        finally:
+            if choice == 1:
+                return True
 
     def victory(self):
         lines = self.board
