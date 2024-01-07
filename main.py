@@ -22,35 +22,44 @@ class NougAndCross:
         end = False
         while end == False:
             for item in ox:
-                line = int(input(f'"{item}" Escolha a linha [0,1 ou 2] '))
-                column = int(input(f'"{item}" Escolha a coluna [0, 1 ou 2] '))
-                print('O número precisa ser de 0 a 2')
-                while play.check(line, column):
-                    print ('Tente outra coluna')
-                    line = int(input('Escolha a linha [0,1 ou 2] '))
-                    column = int(input('Escolha a coluna [0, 1 ou 2] '))
-                    if not play.check(line, column):
+                try:
+                    line = int(input(f'"{item}" Escolha a linha [0,1 ou 2] '))
+                    column = int(input(f'"{item}" Escolha a coluna [0, 1 ou 2] '))
+                    while play.check(line, column):
+                        try:
+                            line = int(input(f'{item} Escolha a linha [0, 1 ou 2] '))
+                            column = int(input(f'{item} Escolha a coluna [0, 1 ou 2] '))
+                        except ValueError:
+                            print('Valor inválido')
+                        if not play.check(line, column):
+                            break
+                except ValueError:
+                    print('Valor inválido')
+                    break
+                else:
+                    self.board[line][column] = item
+                    play.showBoard()
+                    if play.victory():
+                        print(item, 'ganhou')
+                        end = True
                         break
-                self.board[line][column] = item
-                play.showBoard()
-                if play.victory():
-                    print(item, 'ganhou')
-                    end = True
-                    break
-                turn += 1
-                if turn == 9:
-                    print('Empate')
-                    end = True
-                    break
+                    turn += 1
+                    if turn == 9:
+                        print('Empate')
+                        end = True
+                        break
 
     def check(self, line, column):
+        if line < 0 or line > 2 or column < 0 or column > 2:
+            print('Insira um número natural de 0 a 2!')
+            return True
         if self.board[line][column] != ' ':
+            print('Este espaço já está ocupado!')
             return True
 
     def victory(self):
         lines = self.board
         columns = list(zip(*lines))
-        print(columns)
         diagonal1 = [lines[i][i] for i in range(min(len(lines), len(lines[0])))]
         diagonal2 = [lines[i][len(lines) -1 - i] for i in range(min(len(lines), len((lines[0]))))]
         for line in lines:
@@ -65,6 +74,9 @@ class NougAndCross:
             return True
 
 
+play = NougAndCross()
+play.showBoard()
+play.play()
 
 """
         start = True
@@ -135,9 +147,7 @@ class NougAndCross:
 """
 
 
-play = NougAndCross()
-play.showBoard()
-play.play()
+
 
 
 
